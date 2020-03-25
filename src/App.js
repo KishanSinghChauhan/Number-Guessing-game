@@ -6,7 +6,7 @@ import './App.css';
 class App extends Component {
   state = { 
     games: [
-      { level: 1, min: 1, max: 100 }
+      { level: 1, min: 1, max: 100, guesses: [] }
     ]
   };
 
@@ -15,7 +15,8 @@ class App extends Component {
       const newGame = {
         level: game.level + 1, 
         min: 1, 
-        max: game.max + 100 
+        max: game.max + 100,
+        guesses: []
       }
       let games = [...this.state.games];
       games.push(newGame);
@@ -23,10 +24,19 @@ class App extends Component {
     }
   };
 
+  handleGuesses = (game, guess) => {
+    const games = [...this.state.games];
+    const index = games.indexOf(game);
+    games[index] = { ...game };
+    games[index].guesses.push(guess)
+    this.setState({ games });
+  };
+
   handleReset = game => {
     const games = [...this.state.games];
     const index = games.indexOf(game);
     games[index] = { ...game };
+    games[index].guesses = [];
     this.setState({ games });
   };
 
@@ -39,6 +49,7 @@ class App extends Component {
             games={this.state.games}
             onReset={this.handleReset}
             onLevelUp={this.handleLevelUp}
+            onGuess={this.handleGuesses}
           />
         </main>
       </React.Fragment>

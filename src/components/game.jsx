@@ -8,18 +8,18 @@ class Game extends Component {
 
         this.state = {
             randNum: this.randomNumber(min, max),
-            guess: "",
-            guesses: []
+            guess: ""
         }
     }
 
     handleSubmit = guess => {
-        let guesses = this.state.guesses;
-        guesses.push(guess)
-        this.setState({ guesses, guess: "" })
+        const { game, onGuess, onLevelUp } = this.props
+        onGuess(game, guess)
+        this.setState({ guess: "" })
         if(guess == this.state.randNum) {
             alert('Correct');
-            this.props.onLevelUp(this.props.game)
+            this.state.randNum = this.randomNumber(game.min, game.max);
+            onLevelUp(game)
         } 
         else {
             alert('Try Again');
@@ -34,16 +34,17 @@ class Game extends Component {
 
     render() { 
         const { game, onReset } = this.props
-        
+        const { randNum, guess } = this.state
+
         return (  
             <div>
-                <h5>Level {game.level}</h5>{ this.state.randNum }
+                <h5>Level {game.level}</h5>{ randNum }
                 <p>Guess the number between {game.min} and {game.max}</p>
-                < GuessForm onSubmit={this.handleSubmit} guess={this.state.guess} onChange={this.handleGuessChange}/>
+                < GuessForm onSubmit={this.handleSubmit} guess={guess} onChange={this.handleGuessChange}/>
                 <span className={ this.getBatchClasses() }>{this.formatCount()}</span>
-                <button onClick={ () => onReset(this.props.game) } className="btn btn-danger btn-sm m-2">Reset</button>
+                <button onClick={ () => onReset(game) } className="btn btn-danger btn-sm m-2">Reset</button>
                 <h6>Your Previous Guesses: </h6>
-                { this.state.guesses.map(guess => 
+                { game.guesses.map(guess => 
                     <span>{guess} </span>
                 )}
             </div>
