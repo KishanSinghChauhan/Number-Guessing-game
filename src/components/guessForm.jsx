@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
 class GuessForm extends Component {
-    state = {  }
-    
     constructor(props) {
         super(props)
 
         this.state = {
-            guess: null 
+            guess: ""
         }
     }
 

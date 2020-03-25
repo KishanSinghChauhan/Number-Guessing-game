@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import GuessForm from './guessForm';
 
 class Game extends Component {
-    state = { }
-
     constructor(props) {
         super(props)
         const { min, max } = this.props.game
@@ -14,7 +12,13 @@ class Game extends Component {
     }
 
     handleSubmit = guess => {
-        guess == this.state.randNum ? alert('Correct') : alert('Try Again')
+        if(guess == this.state.randNum) {
+            alert('Correct');
+            this.props.onLevelUp(this.props.game)
+        } 
+        else {
+            alert('Try Again');
+        }
     }
 
     render() { 

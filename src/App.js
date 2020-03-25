@@ -10,6 +10,18 @@ class App extends Component {
     ]
   };
 
+  handleLevelUp = game => {
+    const newGame = {
+      level: game.level + 1, 
+      score: 0,
+      min: game.min + 100, 
+      max: game.max + 100 
+    }
+    let games = [...this.state.games];
+    games.push(newGame);
+    this.setState({ games })
+  };
+
   handleIncrement = game => {
     const games = [...this.state.games];
     const index = games.indexOf(game);
@@ -41,6 +53,7 @@ class App extends Component {
             onReset={this.handleReset}
             onIncrement={this.handleIncrement}
             onDelete={this.handleDelete}
+            onLevelUp={this.handleLevelUp}
           />
         </main>
       </React.Fragment>
