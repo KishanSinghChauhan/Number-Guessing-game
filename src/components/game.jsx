@@ -7,11 +7,16 @@ class Game extends Component {
         const { min, max } = this.props.game
 
         this.state = {
-            randNum: this.randomNumber(min, max)
+            randNum: this.randomNumber(min, max),
+            guess: "",
+            guesses: []
         }
     }
 
     handleSubmit = guess => {
+        let guesses = this.state.guesses;
+        guesses.push(guess)
+        this.setState({ guesses, guess: "" })
         if(guess == this.state.randNum) {
             alert('Correct');
             this.props.onLevelUp(this.props.game)
@@ -21,16 +26,26 @@ class Game extends Component {
         }
     }
 
-    render() { 
-        const { children, onIncrement, onDelete } = this.props
+    handleGuessChange = (event) => {
+        this.setState({
+            guess: event.target.value
+        })
+    }
 
+    render() { 
+        const { game, onReset } = this.props
+        
         return (  
             <div>
-                { children }{ this.state.randNum }
-                < GuessForm onSubmit={this.handleSubmit}/>
+                <h5>Level {game.level}</h5>{ this.state.randNum }
+                <p>Guess the number between {game.min} and {game.max}</p>
+                < GuessForm onSubmit={this.handleSubmit} guess={this.state.guess} onChange={this.handleGuessChange}/>
                 <span className={ this.getBatchClasses() }>{this.formatCount()}</span>
-                <button onClick={ () => onIncrement(this.props.game) } className="btn btn-secondary btn-sm">Increment</button>
-                <button onClick={ () => onDelete(this.props.game.level) } className="btn btn-danger btn-sm m-2">Delete</button>
+                <button onClick={ () => onReset(this.props.game) } className="btn btn-danger btn-sm m-2">Reset</button>
+                <h6>Your Previous Guesses: </h6>
+                { this.state.guesses.map(guess => 
+                    <span>{guess} </span>
+                )}
             </div>
         );
     }
