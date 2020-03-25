@@ -6,16 +6,16 @@ import './App.css';
 class App extends Component {
   state = { 
     games: [
-      { level: 1, score: 0 }
+      { level: 1, score: 0, min: 1, max: 100 }
     ]
-  }
+  };
 
   handleIncrement = game => {
     const games = [...this.state.games];
-    const index = games.indexOf(game)
+    const index = games.indexOf(game);
     games[index] = { ...game };
     games[index].score++;
-    this.setState({ games })
+    this.setState({ games });
   };
 
   handleReset = () => {
