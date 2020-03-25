@@ -36,19 +36,17 @@ class Game extends Component {
 
     render() { 
         const { game, onReset } = this.props
-        const { randNum, guess } = this.state
+        const { guess, status } = this.state
 
         return (
             <div>
-                <h5>Level {game.level}</h5>{ randNum }
+                <h5>Level {game.level}</h5>
                 <p>Guess the number between {game.min} and {game.max}</p>
                 < GuessForm onSubmit={this.handleSubmit} guess={guess} onChange={this.handleGuessChange}/>
-                <button onClick={ () => onReset(game) } className="btn btn-danger btn-sm m-2">Reset</button>
-                <span className={ this.getBatchClasses() }>{this.state.status}</span>
-                <h6>Your Previous Guesses: </h6>
-                { game.guesses.map(guess => 
-                    <span>{guess} </span>
-                )}
+                <button onClick={ () => onReset(game) } className="btn btn-outline-primary btn-sm m-2">Reset</button>
+                <span className={ this.getBatchClasses() }>{status}</span>
+                <h6>Your Previous Guesses: { game.guesses.map(guess => 
+                    <span>{guess} </span>)}</h6>
             </div>
         );
     }
@@ -66,8 +64,8 @@ class Game extends Component {
     }
 
     formatGuessStatus(randNum, guess) {
-        let dif = Math.abs(randNum - guess); 
-        if (dif === 0) {
+        let dif = Math.abs( randNum - guess ); 
+        if ( dif === 0 ) {
             return "Great Job";
         }
         else {

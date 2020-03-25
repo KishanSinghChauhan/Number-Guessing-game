@@ -9,7 +9,7 @@ class GuessForm extends Component {
                     <label>Guess The Number: </label>
                     <input type="text" value={guess} onChange={(event) => onChange(event)} />
                 </div>
-                <button onClick={() => onSubmit(guess)}>Submit Guess</button>
+                <button className="btn btn-primary btn-sm" onClick={() => onSubmit(guess)}>Submit Guess</button>
             </React.Fragment>
         );
     }
