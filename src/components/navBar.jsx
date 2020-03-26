@@ -2,13 +2,14 @@ import React from 'react';
 
 const NavBar = ({totalGames}) => {
     return ( 
-        <nav className="navbar navbar-light bg-light">
-            <a className="navbar-brand" href="#">
-                Number Guessing{" "}
-                <span className="badge badge-pill badge-primary">
-                    LEVEL: {totalGames}
-                </span>
+        <nav style={{ position: "fixed", top: 0, zIndex: 1 }} className="navbar navbar-dark bg-primary col-12">
+            <a style={{ margin: "auto" }} className="navbar-brand" href="/">
+                <h4>Number Guessing{" "}</h4>
             </a>
+            <button style={{ position: "fixed", top: 80, left: 20 }} type="button" className="btn btn-primary">
+                Game Level <span className="badge badge-light">{ totalGames }</span>
+                <span className="sr-only">Level</span>
+            </button>
         </nav>
     );
 }

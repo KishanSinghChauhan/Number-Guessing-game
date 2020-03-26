@@ -18,13 +18,9 @@ class Game extends Component {
         this.setState({ status: this.formatGuessStatus(this.state.randNum, this.state.guess) })
         onGuess(game, guess)
         this.setState({ guess: "" })
-        if(guess == this.state.randNum) {
-            alert('Correct');
+        if(parseInt(guess) === this.state.randNum) {
             this.setState({ randNum: this.randomNumber(game.min, game.max) });
             onLevelUp(game)
-        } 
-        else {
-            alert('Try Again');
         }
     }
 
@@ -35,18 +31,22 @@ class Game extends Component {
     }
 
     render() { 
-        const { game, onReset } = this.props
-        const { guess, status } = this.state
+        const { game } = this.props
+        const { guess, randNum, status } = this.state
 
         return (
-            <div>
-                <h5>Level {game.level}</h5>
-                <p>Guess the number between {game.min} and {game.max}</p>
-                < GuessForm onSubmit={this.handleSubmit} guess={guess} onChange={this.handleGuessChange}/>
-                <button onClick={ () => onReset(game) } className="btn btn-outline-primary btn-sm m-2">Reset</button>
-                <span className={ this.getBatchClasses() }>{status}</span>
-                <h6>Your Previous Guesses: { game.guesses.map(guess => 
-                    <span>{guess} </span>)}</h6>
+            <div style={{ marginTop: 10 }} className="card">
+                <div className="card-header">
+                    <h5>Level {game.level} {randNum}</h5>
+                </div>
+                <div className="container card-body">
+                    <p>Guess the number between {game.min} and {game.max}</p>
+                    < GuessForm onSubmit={this.handleSubmit} guess={guess} onChange={this.handleGuessChange}/>
+                    <h6 style={{ marginTop: 10 }}>Your Previous Guesses: { game.guesses.map(guess => 
+                        <span key={game.level}>{guess} </span>)}
+                        <span className={ this.getBatchClasses() }>{status}</span>
+                    </h6>
+                </div>
             </div>
         );
     }
@@ -59,17 +59,23 @@ class Game extends Component {
 
     getBatchClasses() {
         let classes = "badge m-2 badge-"
-        classes += this.state.status == "Great Job" ? "success" : "warning";
+        classes += this.state.status === "Correct" ? "success" : this.state.status === "Hot" ? "danger" : this.state.status === "Warm" ? "warning" : "info";
         return classes;
     }
 
     formatGuessStatus(randNum, guess) {
-        let dif = Math.abs( randNum - guess ); 
-        if ( dif === 0 ) {
-            return "Great Job";
+        let diff = Math.abs( randNum - guess ); 
+        if ( diff === 0 ) {
+            return "Correct";
         }
-        else {
-            return "Try Again";
+        else if ( diff > 15 ) {
+            return "Cold";
+        }
+        else if ( diff > 4 && diff <= 15  ) {
+            return "Warm";
+        }
+        else if ( diff >= 1 && diff <= 4  ) {
+            return "Hot";
         }
     }
 }

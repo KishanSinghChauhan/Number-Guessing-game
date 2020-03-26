@@ -32,22 +32,13 @@ class App extends Component {
     this.setState({ games });
   };
 
-  handleReset = game => {
-    const games = [...this.state.games];
-    const index = games.indexOf(game);
-    games[index] = { ...game };
-    games[index].guesses = [];
-    this.setState({ games });
-  };
-
   render() { 
     return ( 
       <React.Fragment>
         <NavBar totalGames={this.state.games.length} />
-        <main className="container">
+        <main style={{ marginTop: 80, marginBottom: 20 }} className="container">
           <Games
             games={this.state.games}
-            onReset={this.handleReset}
             onLevelUp={this.handleLevelUp}
             onGuess={this.handleGuesses}
           />
