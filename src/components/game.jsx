@@ -21,12 +21,17 @@ class Game extends Component {
 
     handleSubmit = guess => {
         const { game, onGuess, onLevelUp } = this.props;
-        this.setState({ status: this.formatGuessStatus(this.state.randNum, this.state.guess) })
-        onGuess(game, guess)
         this.setState({ guess: "" })
-        if(parseInt(guess) === this.state.randNum) {
-            this.hideSubmitTemp()
-            onLevelUp(game)
+        if ( parseInt(guess) <= game.max && parseInt(guess) >= game.min ){
+            this.setState({ status: this.formatGuessStatus(this.state.randNum, this.state.guess) })
+            onGuess(game, guess)
+            if(parseInt(guess) === this.state.randNum) {
+                this.hideSubmitTemp()
+                onLevelUp(game)
+            }
+        }
+        else {
+            alert('Guessed value is not in range');
         }
     }
 
@@ -42,7 +47,7 @@ class Game extends Component {
 
         return (
             <div style={{ marginTop: 10 }} className="card">
-                <div className="card-header">
+                <div className={ this.getCardHeaderClasses() }>
                     <h5>Level {game.level} </h5>
                 </div>
                 <div className="container card-body">
@@ -68,6 +73,12 @@ class Game extends Component {
 
     getBatchClasses() {
         let classes = "badge m-2 badge-"
+        classes += this.state.status === "Correct" ? "success" : this.state.status === "Hot" ? "danger" : this.state.status === "Warm" ? "warning" : "info";
+        return classes;
+    }
+
+    getCardHeaderClasses() {
+        let classes = "card-header text-white bg-"
         classes += this.state.status === "Correct" ? "success" : this.state.status === "Hot" ? "danger" : this.state.status === "Warm" ? "warning" : "info";
         return classes;
     }
