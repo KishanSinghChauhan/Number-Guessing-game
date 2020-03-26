@@ -9,8 +9,14 @@ class Game extends Component {
         this.state = {
             randNum: this.randomNumber(min, max),
             guess: "",
-            status: "Let's Start"
+            status: "Let's Start",
+            showSubmitTemp: true
         }
+    }
+
+    hideSubmitTemp() {
+        this.setState({ showSubmitTemp: false });
+        console.log(this.state.showSubmitTemp, this.state.guess);
     }
 
     handleSubmit = guess => {
@@ -19,7 +25,7 @@ class Game extends Component {
         onGuess(game, guess)
         this.setState({ guess: "" })
         if(parseInt(guess) === this.state.randNum) {
-            this.setState({ randNum: this.randomNumber(game.min, game.max) });
+            this.hideSubmitTemp()
             onLevelUp(game)
         }
     }
@@ -32,16 +38,19 @@ class Game extends Component {
 
     render() { 
         const { game } = this.props
-        const { guess, randNum, status } = this.state
+        const { guess, status, showSubmitTemp } = this.state
 
         return (
             <div style={{ marginTop: 10 }} className="card">
                 <div className="card-header">
-                    <h5>Level {game.level} {randNum}</h5>
+                    <h5>Level {game.level} </h5>
                 </div>
                 <div className="container card-body">
                     <p>Guess the number between {game.min} and {game.max}</p>
-                    < GuessForm onSubmit={this.handleSubmit} guess={guess} onChange={this.handleGuessChange}/>
+                    { showSubmitTemp ?
+                        <React.Fragment>
+                            < GuessForm onSubmit={this.handleSubmit} guess={guess} onChange={this.handleGuessChange}/>
+                        </React.Fragment> : null }
                     <h6 style={{ marginTop: 10 }}>Your Previous Guesses: { game.guesses.map(guess => 
                         <span key={game.level}>{guess} </span>)}
                         <span className={ this.getBatchClasses() }>{status}</span>
