@@ -16,15 +16,15 @@ class Game extends Component {
 
     hideSubmitTemp() {
         this.setState({ showSubmitTemp: false });
-        console.log(this.state.showSubmitTemp, this.state.guess);
     }
 
     handleSubmit = guess => {
-        const { game, onGuess, onLevelUp } = this.props;
+        const { game, onGuess, onLevelUp, onScoreUp } = this.props;
         this.setState({ guess: "" })
         if ( parseInt(guess) <= game.max && parseInt(guess) >= game.min ){
             this.setState({ status: this.formatGuessStatus(this.state.randNum, this.state.guess) })
             onGuess(game, guess)
+            onScoreUp(game)
             if(parseInt(guess) === this.state.randNum) {
                 this.hideSubmitTemp()
                 onLevelUp(game)

@@ -6,7 +6,7 @@ import './App.css';
 class App extends Component {
   state = { 
     games: [
-      { level: 1, min: 1, max: 100, guesses: [] }
+      { level: 1, min: 1, max: 100, guesses: [], score: 0 }
     ]
   };
 
@@ -32,15 +32,24 @@ class App extends Component {
     this.setState({ games });
   };
 
+  handleScore = game => {
+    const games = [...this.state.games];
+    const index = games.indexOf(game);
+    games[index] = { ...game };
+    games[index].score = game.max - game.guesses.length;
+    this.setState({ games });
+  }
+
   render() { 
     return ( 
       <React.Fragment>
-        <NavBar totalGames={this.state.games.length} />
+        <NavBar totalGames={this.state.games.length} totalScore={this.state.games.map(game => game.score).reduce((p, n) => p + n)}/>
         <main style={{ marginTop: 80, marginBottom: 20 }} className="container">
           <Games
             games={this.state.games}
             onLevelUp={this.handleLevelUp}
             onGuess={this.handleGuesses}
+            onScoreUp={this.handleScore}
           />
         </main>
       </React.Fragment>
