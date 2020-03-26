@@ -60,6 +60,7 @@ class Game extends Component {
                         <span key={game.level}>{guess} </span>)}
                         <span className={ this.getBatchClasses() }>{status}</span>
                     </h6>
+                    <span style={{ position: "absolute", top: 80, right: 25 }} class="badge badge-pill badge-secondary">{game.score}</span>
                 </div>
             </div>
         );

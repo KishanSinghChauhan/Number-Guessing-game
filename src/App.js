@@ -16,7 +16,8 @@ class App extends Component {
         level: game.level + 1, 
         min: 1, 
         max: game.max + 100,
-        guesses: []
+        guesses: [],
+        score: 0
       }
       let games = [...this.state.games];
       games.push(newGame);
