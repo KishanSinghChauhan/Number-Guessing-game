@@ -49,7 +49,7 @@ class Game extends Component {
                     <p>Guess the number between {game.min} and {game.max}</p>
                     { showSubmitTemp ?
                         <React.Fragment>
-                            < GuessForm onSubmit={this.handleSubmit} guess={guess} onChange={this.handleGuessChange}/>
+                            < GuessForm onSubmit={this.handleSubmit} guess={guess} game={game} onChange={this.handleGuessChange}/>
                         </React.Fragment> : null }
                     <h6 style={{ marginTop: 10 }}>Your Previous Guesses: { game.guesses.map(guess => 
                         <span key={game.level}>{guess} </span>)}
